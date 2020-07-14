@@ -216,6 +216,7 @@ ___path___: field path, like `['root', 'key1', 'key2', 'fieldname']`
 ___\[Symbol.iterator\]()___: used to enumerate generated fields for values
 
 ___map()___: helper method, alias for `Array.from(fields.arrayField).map(() => { /* do something */ })`
+
 ___forEach()___: helper method, alias for `Array.from(fields.arrayField).forEach(() => { /* do something */ })`
 
 ___splice()___, ___pop()___, ___push()___, ___shift()___, ___unshift()___: helper method to mutate field value, equal to `field.method = (...args) => {const o = fieldValue.method(...args); field(fieldValue); return o;}`
