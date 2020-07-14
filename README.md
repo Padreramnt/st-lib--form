@@ -27,8 +27,8 @@ Scheme mappings:
 * `boolean | null` -> `'boolean?'`
 * `Date | null` -> `'date?'`
 * `File | null` -> `'file?'`
-* `object` -> `{ [K in keyof T]: Scheme<T[K]> } | null`,
-* `(infer R)[]` -> `[Scheme<R>] | null`
+* `object | null` -> `{ [K in keyof T]: Scheme<T[K]> } | null`,
+* `(infer R)[] | null` -> `[Scheme<R>] | null`
 
 ### 2. Get form data from fields
 
