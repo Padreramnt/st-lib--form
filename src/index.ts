@@ -29,7 +29,7 @@ export type RequiredFieldSheme<T> =
 	T extends boolean ? 'boolean' :
 	T extends Date ? 'date' :
 	T extends File ? 'file' :
-	T extends (infer R)[] ? ArrayFieldScheme<Record<number, R>> :
+	T extends ReadonlyArray<infer R> ? ArrayFieldScheme<Record<number, R>> :
 	T extends object ? ObjectFieldScheme<T> :
 	never;
 
@@ -39,7 +39,7 @@ export type NullableFieldScheme<T> =
 	T extends boolean ? 'boolean?' :
 	T extends Date ? 'date?' :
 	T extends File ? 'file?' :
-	T extends (infer R)[] ? ArrayFieldScheme<Record<number, R>> | null :
+	T extends ReadonlyArray<infer R> ? ArrayFieldScheme<Record<number, R>> | null :
 	T extends object ? ObjectFieldScheme<T> | null :
 	never;
 
@@ -76,7 +76,7 @@ export type FormField<T> =
 	T extends boolean ? ScalarFormField<'boolean', T> :
 	T extends Date ? ScalarFormField<'date', T> :
 	T extends File ? ScalarFormField<'file', T> :
-	T extends (infer R)[] ? ArrayFormField<R> :
+	T extends ReadonlyArray<infer R> ? ArrayFormField<R> :
 	T extends object ? ObjectFormField<T> :
 	never;
 
@@ -85,7 +85,7 @@ export type FormInit<T> =
 	T extends string | number ? T | string | null :
 	T extends Date ? Date | string | number | null :
 	T extends File ? File | null :
-	T extends (infer R)[] ? FormInit<R>[] :
+	T extends ReadonlyArray<infer R> ? FormInit<R>[] :
 	T extends object ? { [K in keyof T]+?: FormInit<T[K]> } :
 	never;
 
@@ -198,7 +198,7 @@ function createArrayField(
 	return field;
 }
 
-function date(inp: unknown) {
+function dateFieldValue(inp: unknown) {
 	let o: Date | null = null;
 	if (isDate(inp)) return inp;
 	if (isNumber(inp) || isNumberString(inp)) {
@@ -207,6 +207,30 @@ function date(inp: unknown) {
 		o = new Date(inp);
 	}
 	return isDate(o) ? o : null;
+}
+
+function numberFieldValue(inp: unknown) {
+	if (isNumber(inp)) {
+		return inp.toString();
+	} else if (isString(inp)) {
+		return inp;
+	}
+	return null;
+}
+
+function booleanFieldValue(inp: unknown) {
+	if (typeof inp === 'boolean') {
+		return inp;
+	} else if (inp instanceof Boolean) {
+		return inp.valueOf();
+	}
+	return null;
+}
+function fileFieldValue(inp: unknown) {
+	return isFile(inp) ? inp : null;
+}
+function stringFieldValue(inp: unknown) {
+	return isString(inp) || isNumber(inp) || isDate(inp) ? String(inp) : null;
 }
 
 function createField(
@@ -218,19 +242,19 @@ function createField(
 	switch (type) {
 		case 'string':
 		case 'string?':
-			return createScalarField('string', path, 'string' === type, isString(value) || isNumber(value) || isDate(value) ? String(value) : null, setValue);
+			return createScalarField('string', path, 'string' === type, stringFieldValue(value), setValue);
 		case 'number':
 		case 'number?':
-			return createScalarField('number', path, 'number' === type, isNumber(value) ? value.toString() : isString(value) ? value : null, setValue);
+			return createScalarField('number', path, 'number' === type, numberFieldValue(value), setValue);
 		case 'boolean':
 		case 'boolean?':
-			return createScalarField('boolean', path, 'boolean' === type, typeof value === 'boolean' ? value : value instanceof Boolean ? value.valueOf() : null, setValue);
+			return createScalarField('boolean', path, 'boolean' === type, booleanFieldValue(value), setValue);
 		case 'date':
 		case 'date?':
-			return createScalarField('date', path, 'date' === type, date(value), setValue);
+			return createScalarField('date', path, 'date' === type, dateFieldValue(value), setValue);
 		case 'file':
 		case 'file?':
-			return createScalarField('file', path, 'file' === type, isFile(value) ? value : null, setValue);
+			return createScalarField('file', path, 'file' === type, fileFieldValue(value), setValue);
 		default:
 			if (Array.isArray(type)) {
 				return createArrayField(type, path, value, setValue);
@@ -244,7 +268,7 @@ function noop() { }
 
 
 export function createForm<T extends object>(scheme: ObjectFieldScheme<T>) {
-	return (data: FormInit<T>, setData: (data: T) => void = noop): ObjectFormField<T> => {
+	return (data: FormInit<T>, setData: (data: FormInit<T>) => void = noop): ObjectFormField<T> => {
 		return createObjectField(
 			scheme,
 			[],

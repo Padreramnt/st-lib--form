@@ -2,7 +2,7 @@
 	"author": "padreramnt",
 	"description": "Form build tool",
 	"dependencies": {
-		"@st-lib/is": "^1.0.3",
+		"@st-lib/is": "^1.0.4",
 		"tslib": "^2.0.0"
 	},
 	"devDependencies": {

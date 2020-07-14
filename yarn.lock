@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@st-lib/is@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@st-lib/is/-/is-1.0.3.tgz#376066433da3315d0467bcfe69fe1cc0c05cdb27"
-  integrity sha512-sEoiteKhIvaIPsAT6R4XilYRTyPxU3p1O5Qnj5Yh6jM2mZdqgvn2jsIivORRv9P29d0xr76Yjc1c9udZ4mgPJw==
+"@st-lib/is@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@st-lib/is/-/is-1.0.4.tgz#32445ced3f75b8f789419006af5818298c7a71c5"
+  integrity sha512-v6dAi/iJHBJxwS8QiM5E/omo57SOFB6VlK/VFdLv4mDq19TcRxK5UkhH+ACxtVXTQV03c+izv37PclzkxR2AWQ==
   dependencies:
     tslib "^1.9.3"
 
