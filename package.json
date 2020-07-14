@@ -1,6 +1,6 @@
 {
 	"author": "padreramnt",
-	"description": "",
+	"description": "Form build tool",
 	"dependencies": {
 		"@st-lib/is": "^1.0.3",
 		"tslib": "^2.0.0"
@@ -14,7 +14,7 @@
 	],
 	"keywords": [
 		"st-lib",
-		"emitter"
+		"form"
 	],
 	"repository": {
 		"type": "git",
