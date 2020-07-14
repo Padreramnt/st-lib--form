@@ -1,0 +1,39 @@
+{
+	"author": "padreramnt",
+	"description": "",
+	"dependencies": {
+		"@st-lib/is": "^1.0.3",
+		"tslib": "^2.0.0"
+	},
+	"devDependencies": {
+		"rimraf": "^3.0.2",
+		"typescript": "^3.9.6"
+	},
+	"files": [
+		"lib"
+	],
+	"keywords": [
+		"st-lib",
+		"emitter"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Padreramnt/st-lib--form"
+	},
+	"license": "MIT",
+	"main": "lib/index.js",
+	"module": "lib/index.js",
+	"name": "@st-lib/form",
+	"scripts": {
+		"build": "tsc -p ./tsconfig.json",
+		"prebuild": "rimraf -rf ./lib",
+		"prepublishOnly": "npm run build",
+		"prestart": "rimraf -rf ./lib",
+		"start": "tsc -p ./tsconfig.json -w",
+		"start:tsc": "tsc",
+		"test": "tsc -p ./tsconfig.json --noEmit"
+	},
+	"types": "lib/index.d.ts",
+	"version": "1.0.0",
+	"peerDependencies": {}
+}
