@@ -2,7 +2,7 @@
 
 ## Basic usage
 
-### 1. Create form
+### Create form
 
 ```ts
 export declare function createForm<T extends object>(scheme: ObjectFieldScheme<T>): (data: FormInit<T>, setData?: (data: T) => void) => ObjectFormField<T>;
@@ -30,7 +30,7 @@ Scheme mappings:
 * `object | null` -> `{ [K in keyof T]: Scheme<T[K]> } | null`,
 * `(infer R)[] | null` -> `[Scheme<R>] | null`
 
-### 2. Get form data from fields
+### Get form data from fields
 
 > Note: field value type is different from form data because of `Number('1230000000000000000000000').toString()/*'1.23e+24'*/ !== '1230000000000000000000000'`, Empty input should emit `null` value
 
